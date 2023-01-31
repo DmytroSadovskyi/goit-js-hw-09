@@ -3,6 +3,10 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const dateInput = document.getElementById('datetime-picker');
 const startCountdownBtn = document.querySelector('[data-start]');
+const daysSpan = document.getElementById('data-days');
+const hoursSpan = document.getElementById('data-hours');
+const minutesSpan = document.getElementById('data-minutes');
+const secondsSpan = document.getElementById('data-seconds');
 
 const options = {
   enableTime: true,
@@ -26,7 +30,7 @@ class Timer {
   }
 
   init() {
-    const time = this.getTimeComponents(0);
+    const time = this.convertMs(0);
     this.onTick(time);
   }
 
@@ -39,20 +43,14 @@ class Timer {
     this.isActive = true;
 
     this.intervalId = setInterval(() => {
-      const currentTime = Date.now();
+      const currentTime = selectedDates[0];
       const deltaTime = currentTime - startTime;
-      const time = this.getTimeComponents(deltaTime);
+      const time = this.convertMs(deltaTime);
 
       this.onTick(time);
     }, 1000);
   }
 
-  stop() {
-    clearInterval(this.intervalId);
-    this.isActive = false;
-    const time = this.getTimeComponents(0);
-    this.onTick(time);
-  }
   convertMs(ms) {
     // Number of milliseconds per unit of time
     const second = 1000;
@@ -61,13 +59,15 @@ class Timer {
     const day = hour * 24;
 
     // Remaining days
-    const days = addLeadingZero(Math.floor(ms / day));
+    const days = this.addLeadingZero(Math.floor(ms / day));
     // Remaining hours
-    const hours = addLeadingZero(Math.floor((ms % day) / hour));
+    const hours = this.addLeadingZero(Math.floor((ms % day) / hour));
     // Remaining minutes
-    const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
+    const minutes = this.addLeadingZero(
+      Math.floor(((ms % day) % hour) / minute)
+    );
     // Remaining seconds
-    const seconds = addLeadingZero(
+    const seconds = this.addLeadingZero(
       Math.floor((((ms % day) % hour) % minute) / second)
     );
 
@@ -79,12 +79,15 @@ class Timer {
   }
 }
 
-// const timer = new Timer({
-//   onTick: updateClockface,
-// });
+const timer = new Timer({
+  onTick: updateClockface,
+});
 
-// startCountdownBtn.addEventListener('click', timer.start.bind(timer));
+startCountdownBtn.addEventListener('click', timer.start.bind(timer));
 
-// function updateClockface({ hours, mins, secs }) {
-//   clockface.textContent = `${hours}:${mins}:${secs}`;
-// }
+function updateClockface({ days, hours, minutes, seconds }) {
+  daysSpan.textContent = days;
+  hoursSpan.textContent = hours;
+  minutesSpan.textContent = minutes;
+  secondsSpan.textContent = seconds;
+}
