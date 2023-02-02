@@ -36,16 +36,19 @@ function onCheckDate(selectedDates) {
 }
 flatpickr(dateInput, options);
 
-const onStartBtnClick = () => {
+const onStartCountdownBtnClick = () => {
   timerId = setInterval(() => {
     startTime = new Date().getTime();
     const deltaTime = targetTime - startTime;
 
     if (deltaTime <= 0) {
       clearInterval(timerId);
+      dateInput.disabled = false;
     } else {
       const time = convertMs(deltaTime);
       updateClockface(time);
+      startCountdownBtn.disabled = true;
+      dateInput.disabled = true;
     }
   }, 1000);
 };
@@ -75,7 +78,7 @@ function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
-startCountdownBtn.addEventListener('click', onStartBtnClick);
+startCountdownBtn.addEventListener('click', onStartCountdownBtnClick);
 
 function updateClockface({ days, hours, minutes, seconds }) {
   daysSpan.textContent = days;
