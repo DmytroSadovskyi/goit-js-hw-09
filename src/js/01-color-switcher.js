@@ -1,7 +1,23 @@
 //  пошук елементів у DOM
 const startBtn = document.querySelector('button[data-start]');
-const stoptBtn = document.querySelector('button[data-stop]');
+const stopBtn = document.querySelector('button[data-stop]');
 const body = document.querySelector('body');
+
+startBtn.style.paddingTop = '10px';
+startBtn.style.paddingBottom = '10px';
+startBtn.style.paddingLeft = '15px';
+startBtn.style.paddingRight = '15px';
+startBtn.style.boxShadow = '0px 8px 15px rgba(0, 0, 0, 0.1)';
+startBtn.style.borderRadius = '5px';
+startBtn.style.border = '0px';
+
+stopBtn.style.paddingTop = '10px';
+stopBtn.style.paddingBottom = '10px';
+stopBtn.style.paddingLeft = '15px';
+stopBtn.style.paddingRight = '15px';
+stopBtn.style.boxShadow = '0px 8px 15px rgba(0, 0, 0, 0.1)';
+stopBtn.style.borderRadius = '5px';
+stopBtn.style.border = '0px';
 
 // Запис початкового значення intervalId
 let intervalId = null;
@@ -19,15 +35,15 @@ const onStartBtnClick = () => {
     body.style.backgroundColor = randomColor;
   }, 1000);
   startBtn.disabled = true;
-  stoptBtn.disabled = false;
+  stopBtn.disabled = false;
 };
 
 const onStopBtnClick = () => {
   clearInterval(intervalId);
   startBtn.disabled = false;
-  stoptBtn.disabled = true;
+  stopBtn.disabled = true;
 };
 
 // додавання слухачів подій для кнопок
 startBtn.addEventListener('click', onStartBtnClick);
-stoptBtn.addEventListener('click', onStopBtnClick);
+stopBtn.addEventListener('click', onStopBtnClick);
