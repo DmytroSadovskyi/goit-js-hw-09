@@ -18,14 +18,14 @@ const onStartBtnClick = () => {
     const randomColor = getRandomHexColor();
     body.style.backgroundColor = randomColor;
   }, 1000);
-  startBtn.setAttribute('disabled', false);
-  stoptBtn.removeAttribute('disabled', true);
+  startBtn.disabled = true;
+  stoptBtn.disabled = false;
 };
 
 const onStopBtnClick = () => {
   clearInterval(intervalId);
-  startBtn.removeAttribute('disabled', true);
-  stoptBtn.setAttribute('disabled', false);
+  startBtn.disabled = false;
+  stoptBtn.disabled = true;
 };
 
 // додавання слухачів подій для кнопок
