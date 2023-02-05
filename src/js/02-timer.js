@@ -1,7 +1,9 @@
+// Додавання бібліотек
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+//  Пошук елементів у DOM
 const dateInput = document.getElementById('datetime-picker');
 const startCountdownBtn = document.querySelector('[data-start]');
 const daysSpan = document.querySelector('[data-days]');
@@ -9,11 +11,13 @@ const hoursSpan = document.querySelector('[data-hours]');
 const minutesSpan = document.querySelector('[data-minutes]');
 const secondsSpan = document.querySelector('[data-seconds]');
 
+//  Встановлення початкових значень для дат айдішника таймеру та кнопки запуску
 let targetTime = null;
 let startTime = null;
 let timerId = null;
 startCountdownBtn.disabled = true;
 
+//  об'єкт налаштування для flatpickr
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -24,18 +28,23 @@ const options = {
   },
 };
 
+// Ініціалізація бібліотеки
+flatpickr(dateInput, options);
+
+//  функція для присвоєння значення поточної дати і обраної дати в календарі, а також
+//  визначення умови за якої буде повідомлення про помилку, або кнопка стане активною
+//  для запуску таймера
 function onCheckDate(selectedDates) {
   targetTime = selectedDates[0].getTime();
   startTime = new Date().getTime();
   if (targetTime < startTime) {
     Notify.failure('Please choose a date in the future');
   } else {
-    Notify.success('Now you can launch your timer!');
     startCountdownBtn.disabled = false;
   }
 }
-flatpickr(dateInput, options);
 
+//  створення колбек-функції для слухача події на кнопці запуску таймера
 const onStartCountdownBtnClick = () => {
   timerId = setInterval(() => {
     startTime = new Date().getTime();
@@ -46,13 +55,14 @@ const onStartCountdownBtnClick = () => {
       dateInput.disabled = false;
     } else {
       const time = convertMs(deltaTime);
-      updateClockface(time);
       startCountdownBtn.disabled = true;
       dateInput.disabled = true;
+      updateClockface(time);
     }
   }, 1000);
 };
 
+//  функція для підрахунку значень днів, годин, хвилин і секунд
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -74,12 +84,15 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
+//  функція для додавання нуля в інтерфейсі таймера, якщо в числі менше двох символів
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
+//  додавання слухача події для кнопки запуску таймера
 startCountdownBtn.addEventListener('click', onStartCountdownBtnClick);
 
+// функція для оновлення інтерфейсу таймера
 function updateClockface({ days, hours, minutes, seconds }) {
   daysSpan.textContent = days;
   hoursSpan.textContent = hours;
