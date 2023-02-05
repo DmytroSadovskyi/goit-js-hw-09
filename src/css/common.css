@@ -18,17 +18,21 @@ img {
 }
 
 .container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 30px;
-  margin-top: 100px;
 }
 
 button {
   cursor: pointer;
 }
 
+/* стилі для таймера */
 .timer {
   display: flex;
   justify-content: center;
