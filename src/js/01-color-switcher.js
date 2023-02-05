@@ -3,6 +3,7 @@ const startBtn = document.querySelector('button[data-start]');
 const stopBtn = document.querySelector('button[data-stop]');
 const body = document.querySelector('body');
 
+//  стилізація кнопок
 startBtn.style.paddingTop = '10px';
 startBtn.style.paddingBottom = '10px';
 startBtn.style.paddingLeft = '15px';
@@ -22,6 +23,10 @@ stopBtn.style.border = '0px';
 // Запис початкового значення intervalId
 let intervalId = null;
 
+//  Встановлення початкового значення для кнопки STOP
+stopBtn.disabled = true;
+
+//  Функція створення випадкового кольору у форматі HEX
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)
     .toString(16)
@@ -34,8 +39,8 @@ const onStartBtnClick = () => {
     const randomColor = getRandomHexColor();
     body.style.backgroundColor = randomColor;
   }, 1000);
-  startBtn.disabled = true;
   stopBtn.disabled = false;
+  startBtn.disabled = true;
 };
 
 const onStopBtnClick = () => {
